@@ -26,6 +26,8 @@
 	<string>Main</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Permission needed for taking picture or video</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permission needed for saving picture to Camera roll</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
