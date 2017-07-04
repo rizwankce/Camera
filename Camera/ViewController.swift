@@ -18,7 +18,8 @@ class ViewController: UIViewController {
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var capturePhotoOutput: AVCapturePhotoOutput?
-    
+    var qrCodeFrameView: UIView?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,7 +62,18 @@ class ViewController: UIViewController {
             
             //start video capture
             captureSession?.startRunning()
+            
             messageLabel.isHidden = true
+            
+            //Initialize QR Code Frame to highlight the QR code
+            qrCodeFrameView = UIView()
+            
+            if let qrCodeFrameView = qrCodeFrameView {
+                qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
+                qrCodeFrameView.layer.borderWidth = 2
+                view.addSubview(qrCodeFrameView)
+                view.bringSubview(toFront: qrCodeFrameView)
+            }
         } catch {
             //If any error occurs, simply print it out
             print(error)
@@ -126,6 +138,7 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
                        from connection: AVCaptureConnection!) {
         // Check if the metadataObjects array is not nil and it contains at least one object.
         if metadataObjects == nil || metadataObjects.count == 0 {
+            qrCodeFrameView?.frame = CGRect.zero
             messageLabel.isHidden = true
             return
         }
@@ -134,6 +147,10 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
         if metadataObj.type == AVMetadataObjectTypeQRCode {
+            // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
+            let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
+            qrCodeFrameView?.frame = barCodeObject!.bounds
+            
             if metadataObj.stringValue != nil {
                 messageLabel.isHidden = false
                 messageLabel.text = metadataObj.stringValue
