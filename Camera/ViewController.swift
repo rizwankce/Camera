@@ -13,11 +13,11 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var previewView: UIView!
     @IBOutlet weak var captureButton: UIButton!
+    @IBOutlet weak var messageLabel: UILabel!
     
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var capturePhotoOutput: AVCapturePhotoOutput?
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +45,14 @@ class ViewController: UIViewController {
             // Set the output on the capture session
             captureSession?.addOutput(capturePhotoOutput)
             
+            // Initialize a AVCaptureMetadataOutput object and set it as the input device
+            let captureMetadataOutput = AVCaptureMetadataOutput()
+            captureSession?.addOutput(captureMetadataOutput)
+
+            // Set delegate and use the default dispatch queue to execute the call back
+            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            
             //Initialise the video preview layer and add it as a sublayer to the viewPreview view's layer
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
@@ -53,6 +61,7 @@ class ViewController: UIViewController {
             
             //start video capture
             captureSession?.startRunning()
+            messageLabel.isHidden = true
         } catch {
             //If any error occurs, simply print it out
             print(error)
@@ -107,6 +116,29 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
         if let image = capturedImage {
             // Save our captured image to photos album
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }
+    }
+}
+
+extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
+    func captureOutput(_ captureOutput: AVCaptureOutput!,
+                       didOutputMetadataObjects metadataObjects: [Any]!,
+                       from connection: AVCaptureConnection!) {
+        // Check if the metadataObjects array is not nil and it contains at least one object.
+        if metadataObjects == nil || metadataObjects.count == 0 {
+            messageLabel.isHidden = true
+            return
+        }
+        
+        // Get the metadata object.
+        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
+        
+        if metadataObj.type == AVMetadataObjectTypeQRCode {
+            if metadataObj.stringValue != nil {
+                messageLabel.isHidden = false
+                messageLabel.text = metadataObj.stringValue
+                debugPrint(metadataObj.stringValue)
+            }
         }
     }
 }

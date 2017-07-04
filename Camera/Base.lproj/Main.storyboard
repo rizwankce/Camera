@@ -39,20 +39,30 @@
                                     <action selector="onTapTakePhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="r5a-RB-RxY"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r9X-uB-vpj">
+                                <rect key="frame" x="16" y="40" width="343" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="yb9-CX-PyI" secondAttribute="bottom" id="2S8-jD-z03"/>
+                            <constraint firstAttribute="trailing" secondItem="r9X-uB-vpj" secondAttribute="trailing" constant="16" id="D2o-Fv-vIN"/>
                             <constraint firstItem="yb9-CX-PyI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="E0S-tI-7NN"/>
+                            <constraint firstItem="r9X-uB-vpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="HYk-6t-2dg"/>
                             <constraint firstItem="2CN-LG-Cdc" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.2" id="OmS-77-l99"/>
                             <constraint firstItem="2CN-LG-Cdc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SyO-PF-bYr"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2CN-LG-Cdc" secondAttribute="bottom" constant="20" id="Zkr-Ho-ynN"/>
                             <constraint firstItem="yb9-CX-PyI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dsG-lP-dR9"/>
                             <constraint firstAttribute="trailing" secondItem="yb9-CX-PyI" secondAttribute="trailing" id="eaI-pM-EiX"/>
+                            <constraint firstItem="r9X-uB-vpj" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="rhY-7t-bmT"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="captureButton" destination="2CN-LG-Cdc" id="ol4-RS-8Vy"/>
+                        <outlet property="messageLabel" destination="r9X-uB-vpj" id="xlK-1H-gtI"/>
                         <outlet property="previewView" destination="yb9-CX-PyI" id="YSF-Cm-ikr"/>
                     </connections>
                 </viewController>
