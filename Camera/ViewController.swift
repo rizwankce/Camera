@@ -52,7 +52,7 @@ class ViewController: UIViewController {
 
             // Set delegate and use the default dispatch queue to execute the call back
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode,AVMetadataObjectTypeFace]
             
             //Initialise the video preview layer and add it as a sublayer to the viewPreview view's layer
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -143,10 +143,7 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
             return
         }
         
-        // Get the metadata object.
-        let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
-        
-        if metadataObj.type == AVMetadataObjectTypeQRCode {
+        if let metadataObj = metadataObjects[0] as? AVMetadataMachineReadableCodeObject {
             // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
@@ -156,6 +153,10 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
                 messageLabel.text = metadataObj.stringValue
                 debugPrint(metadataObj.stringValue)
             }
+        }
+        else if let faceObj = metadataObjects[0] as? AVMetadataFaceObject {
+            let faceObject = self.videoPreviewLayer?.transformedMetadataObject(for: faceObj)
+            qrCodeFrameView?.frame = faceObject!.bounds
         }
     }
 }
