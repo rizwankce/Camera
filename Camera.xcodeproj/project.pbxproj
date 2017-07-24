@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		654BB1E51F21F7750063CF3A /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654BB1E41F21F7750063CF3A /* PlayerViewController.swift */; };
 		65C0E0461EF3B68E00FBA1B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E0451EF3B68E00FBA1B3 /* AppDelegate.swift */; };
 		65C0E0481EF3B68E00FBA1B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C0E0471EF3B68E00FBA1B3 /* ViewController.swift */; };
 		65C0E04B1EF3B68E00FBA1B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 65C0E0491EF3B68E00FBA1B3 /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		654BB1E41F21F7750063CF3A /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		65C0E0421EF3B68E00FBA1B3 /* Camera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Camera.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		65C0E0451EF3B68E00FBA1B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		65C0E0471EF3B68E00FBA1B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				65C0E04C1EF3B68E00FBA1B3 /* Assets.xcassets */,
 				65C0E04E1EF3B68E00FBA1B3 /* LaunchScreen.storyboard */,
 				65C0E0511EF3B68E00FBA1B3 /* Info.plist */,
+				654BB1E41F21F7750063CF3A /* PlayerViewController.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			files = (
 				65C0E0481EF3B68E00FBA1B3 /* ViewController.swift in Sources */,
 				65C0E0461EF3B68E00FBA1B3 /* AppDelegate.swift in Sources */,
+				654BB1E51F21F7750063CF3A /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,7 +422,7 @@
 				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
 				INFOPLIST_FILE = Camera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.Camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankcetest.Camera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -431,7 +435,7 @@
 				DEVELOPMENT_TEAM = 7DDZ7Z48Q7;
 				INFOPLIST_FILE = Camera/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankce.Camera;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rizwankcetest.Camera;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -514,6 +518,7 @@
 				65C0E06C1EF3B68E00FBA1B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65C0E06D1EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "CameraTests" */ = {
 			isa = XCConfigurationList;
@@ -522,6 +527,7 @@
 				65C0E06F1EF3B68E00FBA1B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		65C0E0701EF3B68E00FBA1B3 /* Build configuration list for PBXNativeTarget "CameraUITests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +536,7 @@
 				65C0E0721EF3B68E00FBA1B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

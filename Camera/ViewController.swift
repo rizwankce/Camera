@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     var captureSession: AVCaptureSession?
     var videoPreviewLayer: AVCaptureVideoPreviewLayer?
     var capturePhotoOutput: AVCapturePhotoOutput?
+    var movieFileOutput: AVCaptureMovieFileOutput?
     var qrCodeFrameView: UIView?
 
     override func viewDidLoad() {
@@ -25,6 +26,7 @@ class ViewController: UIViewController {
         
         captureButton.layer.cornerRadius = captureButton.frame.size.width / 2
         captureButton.clipsToBounds = true
+        self.view.bringSubview(toFront: captureButton)
         
         // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -60,6 +62,9 @@ class ViewController: UIViewController {
             videoPreviewLayer?.frame = view.layer.bounds
             previewView.layer.addSublayer(videoPreviewLayer!)
             
+            movieFileOutput = AVCaptureMovieFileOutput()
+            captureSession?.addOutput(movieFileOutput)
+            
             //start video capture
             captureSession?.startRunning()
             
@@ -74,6 +79,10 @@ class ViewController: UIViewController {
                 view.addSubview(qrCodeFrameView)
                 view.bringSubview(toFront: qrCodeFrameView)
             }
+            
+            let longPressGesture = UILongPressGestureRecognizer.init(target: self, action: #selector(handleLongPress))
+            self.captureButton.addGestureRecognizer(longPressGesture);
+            
         } catch {
             //If any error occurs, simply print it out
             print(error)
@@ -85,6 +94,29 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func handleLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+       
+        if gestureRecognizer.state == UIGestureRecognizerState.began {
+            debugPrint("long press started")
+            let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+            let filePath = documentsURL.appendingPathComponent("tempMovie.mp4")
+            if FileManager.default.fileExists(atPath: filePath.absoluteString) {
+                do {
+                    try FileManager.default.removeItem(at: filePath)
+                }
+                catch {
+                    // exception while deleting old cached file
+                    // ignore error if any
+                }
+            }
+            movieFileOutput?.startRecording(toOutputFileURL: filePath, recordingDelegate: self)
+        }
+        else if gestureRecognizer.state == UIGestureRecognizerState.ended {
+            debugPrint("longpress ended")
+            movieFileOutput?.stopRecording()
+        }
     }
 
     @IBAction func onTapTakePhoto(_ sender: Any) {
@@ -160,3 +192,19 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+extension ViewController : AVCaptureFileOutputRecordingDelegate {
+    public func capture(_ captureOutput: AVCaptureFileOutput!, didFinishRecordingToOutputFileAt outputFileURL: URL!, fromConnections connections: [Any]!, error: Error!) {
+        debugPrint(outputFileURL)
+        if error == nil {
+            navigateToPlayer(outputFileURL)
+        }
+    }
+}
+
+extension ViewController {
+    func navigateToPlayer(_ url: URL) {
+        let vc = PlayerViewController()
+        vc.videoUrl = url
+        self.present(vc, animated: true, completion: nil)
+    }
+}
