@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -31,6 +30,7 @@
                                 <rect key="frame" x="150" y="572" width="75" height="74.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="75" id="FiN-AT-5Fc"/>
                                     <constraint firstAttribute="width" secondItem="2CN-LG-Cdc" secondAttribute="height" multiplier="1:1" id="y5r-Gh-QKf"/>
                                 </constraints>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -52,7 +52,6 @@
                             <constraint firstAttribute="trailing" secondItem="r9X-uB-vpj" secondAttribute="trailing" constant="16" id="D2o-Fv-vIN"/>
                             <constraint firstItem="yb9-CX-PyI" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="E0S-tI-7NN"/>
                             <constraint firstItem="r9X-uB-vpj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="16" id="HYk-6t-2dg"/>
-                            <constraint firstItem="2CN-LG-Cdc" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.2" id="OmS-77-l99"/>
                             <constraint firstItem="2CN-LG-Cdc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SyO-PF-bYr"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="2CN-LG-Cdc" secondAttribute="bottom" constant="20" id="Zkr-Ho-ynN"/>
                             <constraint firstItem="yb9-CX-PyI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="dsG-lP-dR9"/>

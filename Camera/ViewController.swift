@@ -82,6 +82,13 @@ class ViewController: UIViewController {
     
     }
 
+    override func viewDidLayoutSubviews() {
+        videoPreviewLayer?.frame = view.bounds
+        if let previewLayer = videoPreviewLayer ,previewLayer.connection.isVideoOrientationSupported {
+            previewLayer.connection.videoOrientation = UIApplication.shared.statusBarOrientation.videoOrientation ?? .portrait
+        }
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -160,3 +167,14 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
     }
 }
 
+extension UIInterfaceOrientation {
+    var videoOrientation: AVCaptureVideoOrientation? {
+        switch self {
+        case .portraitUpsideDown: return .portraitUpsideDown
+        case .landscapeRight: return .landscapeRight
+        case .landscapeLeft: return .landscapeLeft
+        case .portrait: return .portrait
+        default: return nil
+        }
+    }
+}
