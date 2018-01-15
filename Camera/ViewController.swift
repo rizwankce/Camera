@@ -27,7 +27,9 @@ class ViewController: UIViewController {
         captureButton.clipsToBounds = true
         
         // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter
-        let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
+        guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
+            fatalError("No vidoe device found")
+        }
         
         do {
             // Get an instance of the AVCaptureDeviceInput class using the previous deivce object
@@ -44,7 +46,7 @@ class ViewController: UIViewController {
             capturePhotoOutput?.isHighResolutionCaptureEnabled = true
             
             // Set the output on the capture session
-            captureSession?.addOutput(capturePhotoOutput)
+            captureSession?.addOutput(capturePhotoOutput!)
             
             // Initialize a AVCaptureMetadataOutput object and set it as the input device
             let captureMetadataOutput = AVCaptureMetadataOutput()
@@ -52,11 +54,11 @@ class ViewController: UIViewController {
 
             // Set delegate and use the default dispatch queue to execute the call back
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObjectTypeQRCode]
+            captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
             
             //Initialise the video preview layer and add it as a sublayer to the viewPreview view's layer
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-            videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+            videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             previewView.layer.addSublayer(videoPreviewLayer!)
             
@@ -84,8 +86,8 @@ class ViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         videoPreviewLayer?.frame = view.bounds
-        if let previewLayer = videoPreviewLayer ,previewLayer.connection.isVideoOrientationSupported {
-            previewLayer.connection.videoOrientation = UIApplication.shared.statusBarOrientation.videoOrientation ?? .portrait
+        if let previewLayer = videoPreviewLayer ,(previewLayer.connection?.isVideoOrientationSupported)! {
+            previewLayer.connection?.videoOrientation = UIApplication.shared.statusBarOrientation.videoOrientation ?? .portrait
         }
     }
 
@@ -112,9 +114,9 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : AVCapturePhotoCaptureDelegate {
-    func capture(_ captureOutput: AVCapturePhotoOutput,
-                 didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?,
-                 previewPhotoSampleBuffer: CMSampleBuffer?,
+    func photoOutput(_ captureOutput: AVCapturePhotoOutput,
+                 didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?,
+                 previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?,
                  resolvedSettings: AVCaptureResolvedPhotoSettings,
                  bracketSettings: AVCaptureBracketedStillImageSettings?,
                  error: Error?) {
@@ -140,11 +142,11 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
 }
 
 extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
-    func captureOutput(_ captureOutput: AVCaptureOutput!,
-                       didOutputMetadataObjects metadataObjects: [Any]!,
-                       from connection: AVCaptureConnection!) {
-        // Check if the metadataObjects array is not nil and it contains at least one object.
-        if metadataObjects == nil || metadataObjects.count == 0 {
+    func metadataOutput(_ captureOutput: AVCaptureMetadataOutput,
+                       didOutput metadataObjects: [AVMetadataObject],
+                       from connection: AVCaptureConnection) {
+        // Check if the metadataObjects array is contains at least one object.
+        if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
             messageLabel.isHidden = true
             return
@@ -153,7 +155,7 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
         // Get the metadata object.
         let metadataObj = metadataObjects[0] as! AVMetadataMachineReadableCodeObject
         
-        if metadataObj.type == AVMetadataObjectTypeQRCode {
+        if metadataObj.type == AVMetadataObject.ObjectType.qr {
             // If the found metadata is equal to the QR code metadata then update the status label's text and set the bounds
             let barCodeObject = videoPreviewLayer?.transformedMetadataObject(for: metadataObj)
             qrCodeFrameView?.frame = barCodeObject!.bounds
@@ -161,7 +163,6 @@ extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
             if metadataObj.stringValue != nil {
                 messageLabel.isHidden = false
                 messageLabel.text = metadataObj.stringValue
-                debugPrint(metadataObj.stringValue)
             }
         }
     }
