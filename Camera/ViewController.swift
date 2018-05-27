@@ -28,7 +28,7 @@ class ViewController: UIViewController {
         
         // Get an instance of the AVCaptureDevice class to initialize a device object and provide the video as the media type parameter
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
-            fatalError("No vidoe device found")
+            fatalError("No video device found")
         }
         
         do {
