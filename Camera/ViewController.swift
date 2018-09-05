@@ -74,7 +74,7 @@ class ViewController: UIViewController {
                 qrCodeFrameView.layer.borderColor = UIColor.green.cgColor
                 qrCodeFrameView.layer.borderWidth = 2
                 view.addSubview(qrCodeFrameView)
-                view.bringSubview(toFront: qrCodeFrameView)
+                view.bringSubviewToFront(qrCodeFrameView)
             }
         } catch {
             //If any error occurs, simply print it out
