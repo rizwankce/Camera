@@ -139,9 +139,40 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }
     }
+
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard error == nil else {
+            print("Fail to capture photo: \(String(describing: error))")
+            return
+        }
+
+        guard let imageData = photo.fileDataRepresentation() else {
+            print("Fail to convert pixel buffer")
+            return
+        }
+
+        guard let capturedImage = UIImage.init(data: imageData , scale: 1.0) else {
+            print("Fail to convert image data to UIImage")
+            return
+        }
+
+        let width = capturedImage.size.width
+        let height = capturedImage.size.height
+        let origin = CGPoint(x: (width - height)/2, y: (height - height)/2)
+        let size = CGSize(width: height, height: height)
+
+        guard let imageRef = capturedImage.cgImage?.cropping(to: CGRect(origin: origin, size: size)) else {
+            print("Fail to crop image")
+            return
+        }
+
+        let imageToSave = UIImage(cgImage: imageRef, scale: 1.0, orientation: .down)
+        UIImageWriteToSavedPhotosAlbum(imageToSave, nil, nil, nil)
+    }
 }
 
 extension ViewController : AVCaptureMetadataOutputObjectsDelegate {
+
     func metadataOutput(_ captureOutput: AVCaptureMetadataOutput,
                        didOutput metadataObjects: [AVMetadataObject],
                        from connection: AVCaptureConnection) {
