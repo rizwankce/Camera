@@ -114,32 +114,6 @@ class ViewController: UIViewController {
 }
 
 extension ViewController : AVCapturePhotoCaptureDelegate {
-    func photoOutput(_ captureOutput: AVCapturePhotoOutput,
-                 didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?,
-                 previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?,
-                 resolvedSettings: AVCaptureResolvedPhotoSettings,
-                 bracketSettings: AVCaptureBracketedStillImageSettings?,
-                 error: Error?) {
-        // Make sure we get some photo sample buffer
-        guard error == nil,
-            let photoSampleBuffer = photoSampleBuffer else {
-            print("Error capturing photo: \(String(describing: error))")
-            return
-        }
-        
-        // Convert photo same buffer to a jpeg image data by using AVCapturePhotoOutput
-        guard let imageData = AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) else {
-            return
-        }
-        
-        // Initialise an UIImage with our image data
-        let capturedImage = UIImage.init(data: imageData , scale: 1.0)
-        if let image = capturedImage {
-            // Save our captured image to photos album
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        }
-    }
-
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         guard error == nil else {
             print("Fail to capture photo: \(String(describing: error))")
